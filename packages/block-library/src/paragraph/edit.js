@@ -120,7 +120,7 @@ function ParagraphBlock( {
 
 	return (
 		<>
-			<BlockControls>
+			<BlockControls allowMultiple>
 				<AlignmentToolbar
 					value={ align }
 					onChange={ ( newAlign ) =>

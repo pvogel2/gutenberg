@@ -2,15 +2,29 @@
  * WordPress dependencies
  */
 import { createSlotFill } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import { ifBlockEditSelected } from '../block-edit/context';
+import { useBlockEditContext } from '../block-edit/context';
 
 const { Fill, Slot } = createSlotFill( 'InspectorControls' );
 
-const InspectorControls = ifBlockEditSelected( Fill );
+function InspectorControls( { allowMultiple, ...props } ) {
+	const { isSelected, clientId } = useBlockEditContext();
+	const isFirstMultiSelected = useSelect( ( select ) =>
+		select( 'core/block-editor' ).isFirstMultiSelectedBlock( clientId )
+	);
+
+	if ( ! isSelected ) {
+		if ( ! allowMultiple || ! isFirstMultiSelected ) {
+			return null;
+		}
+	}
+
+	return <Fill { ...props } />;
+}
 
 InspectorControls.Slot = Slot;
 

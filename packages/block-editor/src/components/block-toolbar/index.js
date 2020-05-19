@@ -25,7 +25,7 @@ export default function BlockToolbar( { hideDragHandle } ) {
 		blockClientId,
 		hasFixedToolbar,
 		isValid,
-		mode,
+		isVisual,
 		moverDirection,
 	} = useSelect( ( select ) => {
 		const {
@@ -48,14 +48,12 @@ export default function BlockToolbar( { hideDragHandle } ) {
 			blockClientId: selectedBlockClientId,
 			hasFixedToolbar: getSettings().hasFixedToolbar,
 			rootClientId: blockRootClientId,
-			isValid:
-				selectedBlockClientIds.length === 1
-					? isBlockValid( selectedBlockClientIds[ 0 ] )
-					: null,
-			mode:
-				selectedBlockClientIds.length === 1
-					? getBlockMode( selectedBlockClientIds[ 0 ] )
-					: null,
+			isValid: selectedBlockClientIds.every( ( id ) =>
+				isBlockValid( id )
+			),
+			isVisual: selectedBlockClientIds.every(
+				( id ) => getBlockMode( id ) === 'visual'
+			),
 			moverDirection: __experimentalMoverDirection,
 		};
 	}, [] );
@@ -79,7 +77,7 @@ export default function BlockToolbar( { hideDragHandle } ) {
 		return null;
 	}
 
-	const shouldShowVisualToolbar = isValid && mode === 'visual';
+	const shouldShowVisualToolbar = isValid && isVisual;
 	const isMultiToolbar = blockClientIds.length > 1;
 
 	const animatedMoverStyles = {
@@ -130,8 +128,7 @@ export default function BlockToolbar( { hideDragHandle } ) {
 					</div>
 				) }
 			</div>
-
-			{ shouldShowVisualToolbar && ! isMultiToolbar && (
+			{ shouldShowVisualToolbar && (
 				<>
 					<BlockControls.Slot
 						bubblesVirtually
