@@ -311,14 +311,11 @@ const applyWithDispatch = withDispatch( ( dispatch, ownProps, { select } ) => {
 				isFirstMultiSelected,
 				multiSelectedClientIds,
 			} = ownProps;
+			const clientIds = isFirstMultiSelected
+				? multiSelectedClientIds
+				: [ clientId ];
 
-			if ( isFirstMultiSelected ) {
-				multiSelectedClientIds.forEach( ( id ) => {
-					updateBlockAttributes( id, newAttributes );
-				} );
-			} else {
-				updateBlockAttributes( clientId, newAttributes );
-			}
+			updateBlockAttributes( clientIds, newAttributes );
 		},
 		onInsertBlocks( blocks, index ) {
 			const { rootClientId } = ownProps;
