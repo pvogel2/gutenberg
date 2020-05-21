@@ -100,8 +100,8 @@ export function receiveBlocks( blocks ) {
  * Returns an action object used in signalling that the multiple blocks'
  * attributes with the specified client IDs have been updated.
  *
- * @param {string|Array} clientIds  Block client IDs.
- * @param {Object}       attributes Block attributes to be merged.
+ * @param {string|string[]} clientIds  Block client IDs.
+ * @param {Object}          attributes Block attributes to be merged.
  *
  * @return {Object} Action object.
  */
