@@ -45,19 +45,35 @@ function BlockControlsFill( { controls, children } ) {
 	);
 }
 
-function BlockControls( { allowMultiple, ...props } ) {
-	const { isSelected, clientId } = useBlockEditContext();
-	const isFirstMultiSelected = useSelect( ( select ) =>
-		select( 'core/block-editor' ).isFirstMultiSelectedBlock( clientId )
+function BlockControls( { __experimentalAllowAnyMultiple, children } ) {
+	const { isSelected, clientId, name } = useBlockEditContext();
+	const isFirstAndSameTypeMultiSelected = useSelect(
+		( select ) => {
+			const {
+				getBlockName,
+				isFirstMultiSelectedBlock,
+				getMultiSelectedBlockClientIds,
+			} = select( 'core/block-editor' );
+
+			if ( ! isFirstMultiSelectedBlock( clientId ) ) {
+				return false;
+			}
+
+			return (
+				__experimentalAllowAnyMultiple ||
+				getMultiSelectedBlockClientIds().every(
+					( id ) => getBlockName( id ) === name
+				)
+			);
+		},
+		[ __experimentalAllowAnyMultiple ]
 	);
 
-	if ( ! isSelected ) {
-		if ( ! allowMultiple || ! isFirstMultiSelected ) {
-			return null;
-		}
+	if ( ! isSelected && ! isFirstAndSameTypeMultiSelected ) {
+		return null;
 	}
 
-	return <BlockControlsFill { ...props } />;
+	return <BlockControlsFill>{ children }</BlockControlsFill>;
 }
 
 BlockControls.Slot = BlockControlsSlot;
