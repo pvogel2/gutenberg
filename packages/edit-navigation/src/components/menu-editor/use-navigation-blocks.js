@@ -130,7 +130,7 @@ export default function useNavigationBlocks( menuId ) {
 
 		for ( const deletedClientId of deletedClientIds ) {
 			const menuItem = menuItemsRef.current[ deletedClientId ];
-			deleteMenuItem( menuItem.id, { menus: menuId, per_page: -1 } );
+			deleteMenuItem( menuItem.id );
 		}
 
 		createSuccessNotice( __( 'Navigation saved.' ), {
