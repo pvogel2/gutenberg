@@ -88,7 +88,11 @@ module.exports = {
 			plugins: [],
 			themes: [],
 			port: 8888,
-			config: { WP_DEBUG: true, SCRIPT_DEBUG: true },
+			config: {
+				WP_DEBUG: true,
+				SCRIPT_DEBUG: true,
+				WP_TESTS_DOMAIN: 'localhost',
+			},
 			mappings: {},
 		};
 
@@ -157,7 +161,7 @@ module.exports = {
 			return result;
 		}, {} );
 
-		return withEnvVars( {
+		return withOverrides( {
 			name: path.basename( configDirectoryPath ),
 			dockerComposeConfigPath: path.resolve(
 				workDirectoryPath,
@@ -232,18 +236,30 @@ function withBackCompat( rawConfig ) {
 }
 
 /**
- * Overrides keys in the config object with set environment variables.
+ * Overrides keys in the config object with set environment variables or options
+ * which should be merged.
  *
  * @param {Config} config fully parsed configuration object.
  * @return {Config} configuration object with overrides applied.
  */
-function withEnvVars( config ) {
+function withOverrides( config ) {
+	// Override port numbers with environment variables.
 	config.env.development.port =
 		getNumberFromEnvVariable( 'WP_ENV_PORT' ) ||
 		config.env.development.port;
 	config.env.tests.port =
 		getNumberFromEnvVariable( 'WP_ENV_TESTS_PORT' ) ||
 		config.env.tests.port;
+
+	// Set the WP_TESTS_DOMAIN port number based on the passed port.
+	const devUrl = new URL( config.env.development.config.WP_TESTS_DOMAIN );
+	devUrl.port = config.env.development.port;
+	config.env.development.config.WP_TESTS_DOMAIN = devUrl.toString();
+
+	const testsUrl = new URL( config.env.tests.config.WP_TESTS_DOMAIN );
+	testsUrl.port = config.env.tests.port;
+	config.env.tests.config.WP_TESTS_DOMAIN = testsUrl.toString();
+
 	return config;
 }
 
