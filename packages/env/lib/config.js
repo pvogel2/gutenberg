@@ -131,7 +131,7 @@ module.exports = {
 
 		// A unique array of the environments specified in the config options.
 		// Needed so that we can override items on a per-environment level, rather
-		// than completely
+		// than completely overwriting each env.
 		const getEnvKeys = ( config ) => Object.keys( config.env || {} );
 		const allEnvs = [
 			...new Set( [
