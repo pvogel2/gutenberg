@@ -42,20 +42,25 @@ function getMounts( config ) {
  * @return {Object} A docker-compose config object, ready to serialize into YAML.
  */
 module.exports = function buildDockerComposeConfig( config ) {
-	// @TODO handle core sources properly.
+	const devCoreSource =
+		config.env.development.coreSource || config.coreSource;
+
 	const developmentMounts = [
-		`${
-			config.coreSource ? config.coreSource.path : 'wordpress'
-		}:/var/www/html`,
+		`${ devCoreSource ? devCoreSource.path : 'wordpress' }:/var/www/html`,
 		...getMounts( config ),
 		...getMounts( config.env.development ),
 	];
 
+	const testsCoreSourcePath =
+		config.env.tests.coreSource || config.coreSource;
+
 	let testsMounts;
-	if ( config.coreSource ) {
+	if ( testsCoreSourcePath ) {
 		testsMounts = [
 			`${ config.coreSource.testsPath }:/var/www/html`,
 
+			// @TODO: move this into the "multi-env" thingy
+			//
 			// When using a local source for "core" we want to ensure two things:
 			//
 			// 1. That changes the user makes within the "core" directory are
