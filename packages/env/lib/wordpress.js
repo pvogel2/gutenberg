@@ -71,7 +71,7 @@ async function configureWordPress( environment, config ) {
 		log: config.debug,
 	};
 
-	const port = environment === 'development' ? config.port : config.testsPort;
+	const port = config.env[ environment ].port;
 
 	// Install WordPress.
 	await dockerCompose.run(
@@ -91,7 +91,10 @@ async function configureWordPress( environment, config ) {
 	);
 
 	// Set wp-config.php values.
-	for ( const [ key, value ] of Object.entries( config.config ) ) {
+	for ( const [ key, value ] of Object.entries( {
+		...config.config,
+		...config.env[ environment ].config,
+	} ) ) {
 		const command = [ 'wp', 'config', 'set', key, value ];
 		if ( typeof value !== 'string' ) {
 			command.push( '--raw' );
@@ -104,7 +107,10 @@ async function configureWordPress( environment, config ) {
 	}
 
 	// Activate all plugins.
-	for ( const pluginSource of config.pluginSources ) {
+	for ( const pluginSource of [
+		...config.pluginSources,
+		...config.env[ environment ].pluginSources,
+	] ) {
 		await dockerCompose.run(
 			environment === 'development' ? 'cli' : 'tests-cli',
 			`wp plugin activate ${ pluginSource.basename }`,
@@ -113,7 +119,10 @@ async function configureWordPress( environment, config ) {
 	}
 
 	// Activate the first theme.
-	const [ themeSource ] = config.themeSources;
+	const [ themeSource ] = [
+		...config.themeSources,
+		...config.env[ environment ].themeSources,
+	];
 	if ( themeSource ) {
 		await dockerCompose.run(
 			environment === 'development' ? 'cli' : 'tests-cli',

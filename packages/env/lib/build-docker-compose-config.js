@@ -42,6 +42,7 @@ function getMounts( service ) {
  * @return {Object} A docker-compose config object, ready to serialize into YAML.
  */
 module.exports = function buildDockerComposeConfig( config ) {
+	// @TODO handle core sources properly.
 	const developmentMounts = [
 		`${
 			config.coreSource ? config.coreSource.path : 'wordpress'
