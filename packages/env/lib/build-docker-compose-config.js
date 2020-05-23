@@ -13,21 +13,21 @@ const path = require( 'path' );
 /**
  * Gets the volume mounts for an individual service.
  *
- * @param {WPServiceConfig} service The service config to get the mounts from.
+ * @param {WPServiceConfig} config The service config to get the mounts from.
  * @return {string[]} An array of volumes to mount in string format.
  */
-function getMounts( service ) {
+function getMounts( config ) {
 	// Top-level WordPress directory mounts (like wp-content/themes)
-	const directoryMounts = Object.entries( service.mappings ).map(
+	const directoryMounts = Object.entries( config.mappings ).map(
 		( [ wpDir, source ] ) => `${ source.path }:/var/www/html/${ wpDir }`
 	);
 
-	const pluginMounts = service.pluginSources.map(
+	const pluginMounts = config.pluginSources.map(
 		( source ) =>
 			`${ source.path }:/var/www/html/wp-content/plugins/${ source.basename }`
 	);
 
-	const themeMounts = service.themeSources.map(
+	const themeMounts = config.themeSources.map(
 		( source ) =>
 			`${ source.path }:/var/www/html/wp-content/themes/${ source.basename }`
 	);
