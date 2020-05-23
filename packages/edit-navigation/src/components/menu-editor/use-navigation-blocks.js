@@ -123,9 +123,26 @@ export default function useNavigationBlocks( menuId ) {
 
 		saveNestedBlocks( innerBlocks, parentItemId );
 
+		const getCurrentMenuItemBlocks = (
+			currentBlocks,
+			currentBlockList
+		) => {
+			currentBlocks.forEach( ( block ) => {
+				currentBlockList.push( block.clientId );
+				getCurrentMenuItemBlocks( block.innerBlocks, currentBlockList );
+			} );
+			return currentBlockList;
+		};
+
+		let currentBlockClientIds = [];
+		currentBlockClientIds = getCurrentMenuItemBlocks(
+			innerBlocks,
+			currentBlockClientIds
+		);
+
 		const deletedClientIds = difference(
 			Object.keys( menuItemsRef.current ),
-			innerBlocks.map( ( block ) => block.clientId )
+			currentBlockClientIds
 		);
 
 		for ( const deletedClientId of deletedClientIds ) {
