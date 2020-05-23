@@ -7,7 +7,32 @@ const path = require( 'path' );
 
 /**
  * @typedef {import('./config').Config} Config
+ * @typedef {import('./config').WPServiceConfig} WPServiceConfig
  */
+
+/**
+ * Gets the volume mounts for an individual service.
+ *
+ * @param {WPServiceConfig} service The service config to get the mounts from.
+ * @return {string[]} An array of volumes to mount in string format.
+ */
+function getMounts( service ) {
+	// Top-level WordPress directory mounts (like wp-content/themes)
+	const directoryMounts = Object.entries( service.mappings ).map(
+		( [ wpDir, source ] ) => `${ source.path }:/var/www/html/${ wpDir }`
+	);
+
+	const pluginMounts = service.pluginSources.map(
+		( source ) =>
+			`${ source.path }:/var/www/html/wp-content/plugins/${ source.basename }`
+	);
+
+	const themeMounts = service.themeSources.map(
+		( source ) =>
+			`${ source.path }:/var/www/html/wp-content/themes/${ source.basename }`
+	);
+	return [ ...directoryMounts, ...pluginMounts, ...themeMounts ];
+}
 
 /**
  * Creates a docker-compose config object which, when serialized into a
@@ -17,28 +42,12 @@ const path = require( 'path' );
  * @return {Object} A docker-compose config object, ready to serialize into YAML.
  */
 module.exports = function buildDockerComposeConfig( config ) {
-	// Top-level WordPress directory mounts (like wp-content/themes)
-	const directoryMounts = Object.entries( config.mappings ).map(
-		( [ wpDir, source ] ) => `${ source.path }:/var/www/html/${ wpDir }`
-	);
-
-	const pluginMounts = config.pluginSources.map(
-		( source ) =>
-			`${ source.path }:/var/www/html/wp-content/plugins/${ source.basename }`
-	);
-
-	const themeMounts = config.themeSources.map(
-		( source ) =>
-			`${ source.path }:/var/www/html/wp-content/themes/${ source.basename }`
-	);
-
-	const localMounts = [ ...directoryMounts, ...pluginMounts, ...themeMounts ];
-
 	const developmentMounts = [
 		`${
 			config.coreSource ? config.coreSource.path : 'wordpress'
 		}:/var/www/html`,
-		...localMounts,
+		...getMounts( config ),
+		...getMounts( config.env.development ),
 	];
 
 	let testsMounts;
@@ -81,15 +90,20 @@ module.exports = function buildDockerComposeConfig( config ) {
 						)
 				: [] ),
 
-			...localMounts,
+			...getMounts( config ),
+			...getMounts( config.env.tests ),
 		];
 	} else {
-		testsMounts = [ 'tests-wordpress:/var/www/html', ...localMounts ];
+		testsMounts = [
+			'tests-wordpress:/var/www/html',
+			...getMounts( config ),
+			...getMounts( config.env.tests ),
+		];
 	}
 
 	// Set the default ports based on the config values.
-	const developmentPorts = `\${WP_ENV_PORT:-${ config.port }}:80`;
-	const testsPorts = `\${WP_ENV_TESTS_PORT:-${ config.testsPort }}:80`;
+	const developmentPorts = `\${WP_ENV_PORT:-${ config.env.development.port }}:80`;
+	const testsPorts = `\${WP_ENV_TESTS_PORT:-${ config.env.tests.port }}:80`;
 
 	// The www-data user in wordpress:cli has a different UID (82) to the
 	// www-data user in wordpress (33). Ensure we use the wordpress www-data
