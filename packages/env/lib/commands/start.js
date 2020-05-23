@@ -67,6 +67,17 @@ module.exports = async function start( { spinner, debug } ) {
 				.join( '\n' );
 	};
 
+	const sources = [];
+	const sourceKeys = [ 'pluginSources', 'themeSources' ];
+	// Adding config at the end lets us get more sources from the base config.
+	for ( const env in [ ...Object.values( config.env ), { ...config } ] ) {
+		sourceKeys.forEach( ( sourceKey ) => {
+			if ( env[ sourceKey ] ) {
+				sources.push( env[ sourceKey ] );
+			}
+		} );
+	}
+
 	await Promise.all( [
 		// Preemptively start the database while we wait for sources to download.
 		dockerCompose.upOne( 'mysql', {
@@ -75,6 +86,7 @@ module.exports = async function start( { spinner, debug } ) {
 		} ),
 
 		( async () => {
+			// @TODO integrate with multi-env
 			if ( config.coreSource ) {
 				await downloadSource( config.coreSource, {
 					onProgress: getProgressSetter( 'core' ),
@@ -97,15 +109,7 @@ module.exports = async function start( { spinner, debug } ) {
 			}
 		} )(),
 
-		...config.pluginSources.map( ( source ) =>
-			downloadSource( source, {
-				onProgress: getProgressSetter( source.basename ),
-				spinner,
-				debug: config.debug,
-			} )
-		),
-
-		...config.themeSources.map( ( source ) =>
+		...sources.map( ( source ) =>
 			downloadSource( source, {
 				onProgress: getProgressSetter( source.basename ),
 				spinner,
