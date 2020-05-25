@@ -66,6 +66,7 @@ function useMovingAnimation(
 		x: 0,
 		y: 0,
 		scrollTop: 0,
+		clientTop: 0,
 	} );
 
 	const previous = ref.current ? getAbsolutePosition( ref.current ) : null;
@@ -86,7 +87,8 @@ function useMovingAnimation(
 			if ( adjustScrolling && scrollContainer.current ) {
 				// if the animation is disabled and the scroll needs to be adjusted,
 				// just move directly to the final scroll position
-				ref.current.style.transform = 'none';
+				ref.current.style.left = null;
+				ref.current.style.top = null;
 				const destination = getAbsolutePosition( ref.current );
 				scrollContainer.current.scrollTop =
 					scrollContainer.current.scrollTop -
@@ -96,21 +98,26 @@ function useMovingAnimation(
 
 			return;
 		}
-		ref.current.style.transform = 'none';
+		ref.current.style.left = null;
+		ref.current.style.top = null;
 		const destination = getAbsolutePosition( ref.current );
+		if ( adjustScrolling ) {
+			scrollContainer.current.scrollTop =
+				scrollContainer.current.scrollTop -
+				previous.top +
+				destination.top;
+		}
+		const blockRect = ref.current.getBoundingClientRect();
 		const newTransform = {
 			x: previous.left - destination.left,
 			y: previous.top - destination.top,
-			scrollTop: scrollContainer.current
-				? scrollContainer.current.scrollTop -
-				  previous.top +
-				  destination.top
-				: 0,
+			scrollTop: scrollContainer.current.scrollTop,
+			clientTop: blockRect.top,
 		};
-		ref.current.style.transform =
-			newTransform.x === 0 && newTransform.y === 0
-				? undefined
-				: `translate3d(${ newTransform.x }px,${ newTransform.y }px,0)`;
+		ref.current.style.left =
+			newTransform.x === 0 ? undefined : `${ newTransform.x }px`;
+		ref.current.style.top =
+			newTransform.y === 0 ? undefined : `${ newTransform.y }px`;
 		triggerAnimation();
 		setTransform( newTransform );
 	}, [ triggerAnimationOnChange ] );
@@ -127,15 +134,15 @@ function useMovingAnimation(
 		reset: triggeredAnimation !== finishedAnimation,
 		config: { mass: 5, tension: 2000, friction: 200 },
 		immediate: prefersReducedMotion,
-		onFrame: ( props ) => {
+		onFrame: () => {
 			if (
 				adjustScrolling &&
 				scrollContainer.current &&
-				! prefersReducedMotion &&
-				props.y
+				! prefersReducedMotion
 			) {
-				scrollContainer.current.scrollTop =
-					transform.scrollTop + props.y;
+				const blockRect = ref.current.getBoundingClientRect();
+				const diff = blockRect.top - transform.clientTop;
+				scrollContainer.current.scrollTop += diff;
 			}
 		},
 	} );
@@ -144,18 +151,28 @@ function useMovingAnimation(
 	return prefersReducedMotion
 		? {}
 		: {
-				transformOrigin: 'center',
-				transform: interpolate(
-					[ animationProps.x, animationProps.y ],
-					( x, y ) =>
-						x === 0 && y === 0
-							? undefined
-							: `translate3d(${ x }px,${ y }px,0)`
-				),
+				left: interpolate( [ animationProps.x ], ( x ) => {
+					x = Math.round( x );
+
+					if ( x === 0 ) {
+						return;
+					}
+
+					return `${ x }px`;
+				} ),
+				top: interpolate( [ animationProps.y ], ( y ) => {
+					y = Math.round( y );
+
+					if ( y === 0 ) {
+						return;
+					}
+
+					return `${ y }px`;
+				} ),
 				zIndex: interpolate(
 					[ animationProps.x, animationProps.y ],
 					( x, y ) =>
-						! isSelected || ( x === 0 && y === 0 ) ? undefined : `1`
+						! isSelected || ( x === 0 && y === 0 ) ? undefined : '1'
 				),
 		  };
 }
