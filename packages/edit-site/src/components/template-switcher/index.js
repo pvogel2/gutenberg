@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
-import { select, useSelect } from '@wordpress/data';
+import { resolveSelect, useSelect } from '@wordpress/data';
 import { useEffect, useState, useCallback } from '@wordpress/element';
 import {
 	Tooltip,
@@ -81,7 +81,7 @@ export default function TemplateSwitcher( {
 				if ( success ) {
 					let newHomeId = data.ID;
 					if ( newHomeId === null ) {
-						const { getEntityRecords } = select( 'core' );
+						const { getEntityRecords } = resolveSelect( 'core' );
 						newHomeId = getEntityRecords(
 							'postType',
 							'wp_template',
