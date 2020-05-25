@@ -36,7 +36,7 @@ export function PageAttributesParent( {
 			name:
 				item.title && item.title.raw
 					? item.title.raw
-					: `#${ item.id } (${ __( 'no title' ) })`,
+					: `#${ item.id} (${ __( 'no title' ) })`,
 		} ) )
 	);
 	return (

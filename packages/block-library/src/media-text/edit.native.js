@@ -213,7 +213,7 @@ class MediaTextEdit extends Component {
 		const containerStyles = {
 			...styles[ 'wp-block-media-text' ],
 			...styles[
-				`is-vertically-aligned-${ verticalAlignment || 'center' }`
+				`is-vertically-aligned-${ verticalAlignment || 'center'}`
 			],
 			...( mediaPosition === 'right'
 				? styles[ 'has-media-on-the-right' ]

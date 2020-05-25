@@ -82,7 +82,7 @@ export default function createNamespace( key, options, registry ) {
 	// not on every dispatch.
 	const subscribe =
 		store &&
-		function( listener ) {
+		function ( listener ) {
 			let lastState = store.__unstableOriginalGetState();
 			store.subscribe( () => {
 				const state = store.__unstableOriginalGetState();

@@ -8,7 +8,7 @@ import { getSibling } from './utils';
  *
  * @param {Element} node Node to check.
  */
-export default function( node ) {
+export default function ( node ) {
 	if ( node.nodeName !== 'BR' ) {
 		return;
 	}

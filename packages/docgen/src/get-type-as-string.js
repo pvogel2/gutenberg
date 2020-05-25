@@ -1,11 +1,11 @@
-const maybeAddDefault = function( value, defaultValue ) {
+const maybeAddDefault = function ( value, defaultValue ) {
 	if ( defaultValue ) {
 		return `value=${ defaultValue }`;
 	}
 	return value;
 };
 
-const getType = function( param, defaultValue ) {
+const getType = function ( param, defaultValue ) {
 	if ( ! defaultValue ) {
 		defaultValue = param.default;
 	}
@@ -42,6 +42,6 @@ const getType = function( param, defaultValue ) {
 	return maybeAddDefault( param.name, defaultValue );
 };
 
-module.exports = function( param ) {
+module.exports = function ( param ) {
 	return getType( param );
 };

@@ -119,7 +119,7 @@ function isEdge( container, isReverse, onlyVertical ) {
 
 	const padding =
 		parseInt(
-			computedStyle[ `padding${ isReverse ? 'Top' : 'Bottom' }` ],
+			computedStyle[ `padding${ isReverse ? 'Top' : 'Bottom'}` ],
 			10
 		) || 0;
 

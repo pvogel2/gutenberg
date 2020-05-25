@@ -32,7 +32,7 @@ export const __experimentalGetAnnotationsForBlock = createSelector(
 	( state, blockClientId ) => [ get( state, blockClientId, EMPTY_ARRAY ) ]
 );
 
-export const __experimentalGetAllAnnotationsForBlock = function(
+export const __experimentalGetAllAnnotationsForBlock = function (
 	state,
 	blockClientId
 ) {

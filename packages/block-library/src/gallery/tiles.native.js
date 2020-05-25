@@ -56,7 +56,7 @@ function Tiles( props ) {
 				style={ [
 					styles.tileStyle,
 					{
-						width: `${ 100 / rowLength }%`,
+						width: `${ 100 / rowLength}%`,
 						paddingLeft: spacing * ( indexInRow / rowLength ),
 						paddingRight:
 							spacing * ( 1 - ( indexInRow + 1 ) / rowLength ),

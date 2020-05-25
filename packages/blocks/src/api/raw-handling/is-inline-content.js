@@ -53,7 +53,7 @@ function isDoubleBR( node ) {
 	);
 }
 
-export default function( HTML, contextTag ) {
+export default function ( HTML, contextTag ) {
 	const doc = document.implementation.createHTMLDocument( '' );
 
 	doc.body.innerHTML = HTML;

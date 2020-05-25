@@ -3,7 +3,7 @@
  */
 import normaliseBlocks from './normalise-blocks';
 
-export default function( node ) {
+export default function ( node ) {
 	if ( node.nodeName !== 'BLOCKQUOTE' ) {
 		return;
 	}

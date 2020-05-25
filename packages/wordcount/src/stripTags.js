@@ -6,7 +6,7 @@
  *
  * @return {string} The manipulated text.
  */
-export default function( settings, text ) {
+export default function ( settings, text ) {
 	if ( settings.HTMLRegExp ) {
 		return text.replace( settings.HTMLRegExp, '\n' );
 	}

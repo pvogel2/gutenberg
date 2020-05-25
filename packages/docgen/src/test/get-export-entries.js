@@ -9,7 +9,7 @@ const path = require( 'path' );
  */
 const getExportEntries = require( '../get-export-entries' );
 
-describe( 'Export entries', function() {
+describe( 'Export entries', function () {
 	it( 'default class (anonymous)', () => {
 		const token = fs.readFileSync(
 			path.join(
@@ -29,7 +29,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default class (named)', function() {
+	it( 'default class (named)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -48,7 +48,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default function (anonymous)', function() {
+	it( 'default function (anonymous)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -67,7 +67,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default function (named)', function() {
+	it( 'default function (named)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -86,7 +86,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default identifier', function() {
+	it( 'default identifier', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -105,7 +105,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default import (named)', function() {
+	it( 'default import (named)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -124,7 +124,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default import (default)', function() {
+	it( 'default import (default)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -143,7 +143,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default named export', function() {
+	it( 'default named export', function () {
 		const tokens = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -171,7 +171,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'default variable', function() {
+	it( 'default variable', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/default-variable/exports.json' ),
 			'utf-8'
@@ -187,7 +187,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named class', function() {
+	it( 'named class', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-class/exports.json' ),
 			'utf-8'
@@ -203,7 +203,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named default', function() {
+	it( 'named default', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-default/exports.json' ),
 			'utf-8'
@@ -219,7 +219,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named default (exported)', function() {
+	it( 'named default (exported)', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -238,7 +238,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named function', function() {
+	it( 'named function', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-function/exports.json' ),
 			'utf-8'
@@ -254,7 +254,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named identifier', function() {
+	it( 'named identifier', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-identifier/exports.json' ),
 			'utf-8'
@@ -286,7 +286,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named identifiers', function() {
+	it( 'named identifiers', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-identifiers/exports.json' ),
 			'utf-8'
@@ -352,7 +352,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named import namespace', function() {
+	it( 'named import namespace', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -371,7 +371,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named variable', function() {
+	it( 'named variable', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-variable/exports.json' ),
 			'utf-8'
@@ -387,7 +387,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'named variables', function() {
+	it( 'named variables', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/named-variables/exports.json' ),
 			'utf-8'
@@ -410,7 +410,7 @@ describe( 'Export entries', function() {
 		} );
 	} );
 
-	it( 'namespace (*)', function() {
+	it( 'namespace (*)', function () {
 		const token = fs.readFileSync(
 			path.join( __dirname, './fixtures/namespace/exports.json' ),
 			'utf-8'

@@ -65,7 +65,7 @@ const getTypeOutput = ( type ) => {
 	return type ? `\`${ type }\`` : '(unknown type)';
 };
 
-module.exports = function(
+module.exports = function (
 	rootDir,
 	docPath,
 	symbols,
@@ -119,7 +119,7 @@ module.exports = function(
 				'Parameters',
 				getSymbolTagsByName( symbol, 'param' ),
 				( tag ) =>
-					`\n- *${ tag.name }* ${ getTypeOutput(
+					`\n- *${ tag.name}* ${ getTypeOutput(
 						tag.type
 					) }: ${ cleanSpaces( tag.description ) }`,
 				docs
@@ -136,14 +136,14 @@ module.exports = function(
 			formatTag(
 				'Type Definition',
 				getSymbolTagsByName( symbol, 'typedef' ),
-				( tag ) => `\n- *${ tag.name }* ${ getTypeOutput( tag.type ) }`,
+				( tag ) => `\n- *${ tag.name}* ${ getTypeOutput( tag.type ) }`,
 				docs
 			);
 			formatTag(
 				'Properties',
 				getSymbolTagsByName( symbol, 'property' ),
 				( tag ) =>
-					`\n- *${ tag.name }* ${ getTypeOutput(
+					`\n- *${ tag.name}* ${ getTypeOutput(
 						tag.type
 					) }: ${ cleanSpaces( tag.description ) }`,
 				docs

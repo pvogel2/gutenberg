@@ -121,7 +121,7 @@ export function createPersistenceInterface( options ) {
  *
  * @return {WPDataPlugin} Data plugin.
  */
-const persistencePlugin = function( registry, pluginOptions ) {
+const persistencePlugin = function ( registry, pluginOptions ) {
 	const persistence = createPersistenceInterface( pluginOptions );
 
 	/**

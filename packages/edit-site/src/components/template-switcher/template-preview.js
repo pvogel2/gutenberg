@@ -18,7 +18,7 @@ function TemplatePreview( { item } ) {
 		[ item ]
 	);
 	const blocks = useMemo(
-		() => ( template ? parse( template?.content?.raw || '' ) : [] ),
+		() => ( template ? parse( template?.content?.raw || '' ) : []) ,
 		[ template ]
 	);
 	return (

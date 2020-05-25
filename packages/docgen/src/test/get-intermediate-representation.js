@@ -9,8 +9,8 @@ const path = require( 'path' );
  */
 const getIntermediateRepresentation = require( '../get-intermediate-representation' );
 
-describe( 'Intermediate Representation', function() {
-	it( 'undocumented', function() {
+describe( 'Intermediate Representation', function () {
+	it( 'undocumented', function () {
 		const token = fs.readFileSync(
 			path.join(
 				__dirname,
@@ -81,8 +81,8 @@ describe( 'Intermediate Representation', function() {
 		} );
 	} );
 
-	describe( 'JSDoc in export statement', function() {
-		it( 'default export', function() {
+	describe( 'JSDoc in export statement', function () {
+		it( 'default export', function () {
 			const tokenClassAnonymous = fs.readFileSync(
 				path.join(
 					__dirname,
@@ -182,7 +182,7 @@ describe( 'Intermediate Representation', function() {
 				lineEnd: 4,
 			} );
 		} );
-		it( 'named export', function() {
+		it( 'named export', function () {
 			const tokenClass = fs.readFileSync(
 				path.join( __dirname, './fixtures/named-class/exports.json' ),
 				'utf-8'
@@ -271,8 +271,8 @@ describe( 'Intermediate Representation', function() {
 		} );
 	} );
 
-	describe( 'JSDoc in same file', function() {
-		it( 'default export', function() {
+	describe( 'JSDoc in same file', function () {
+		it( 'default export', function () {
 			const token = fs.readFileSync(
 				path.join(
 					__dirname,
@@ -344,7 +344,7 @@ describe( 'Intermediate Representation', function() {
 			} );
 		} );
 
-		it( 'named export', function() {
+		it( 'named export', function () {
 			const token = fs.readFileSync(
 				path.join(
 					__dirname,
@@ -491,8 +491,8 @@ describe( 'Intermediate Representation', function() {
 		} );
 	} );
 
-	describe( 'JSDoc in module dependency', function() {
-		it( 'named export', function() {
+	describe( 'JSDoc in module dependency', function () {
+		it( 'named export', function () {
 			const tokenImportNamed = fs.readFileSync(
 				path.join(
 					__dirname,
@@ -543,7 +543,7 @@ describe( 'Intermediate Representation', function() {
 			} );
 		} );
 
-		it( 'named default export', function() {
+		it( 'named default export', function () {
 			const tokenDefault = fs.readFileSync(
 				path.join( __dirname, './fixtures/named-default/exports.json' ),
 				'utf-8'
@@ -597,7 +597,7 @@ describe( 'Intermediate Representation', function() {
 			} );
 		} );
 
-		it( 'namespace export', function() {
+		it( 'namespace export', function () {
 			const token = fs.readFileSync(
 				path.join( __dirname, './fixtures/namespace/exports.json' ),
 				'utf-8'
@@ -684,8 +684,8 @@ describe( 'Intermediate Representation', function() {
 		} );
 	} );
 
-	describe( 'JSDoc in module dependency through import', function() {
-		it( 'default export', function() {
+	describe( 'JSDoc in module dependency through import', function () {
+		it( 'default export', function () {
 			const tokenDefault = fs.readFileSync(
 				path.join(
 					__dirname,
@@ -766,7 +766,7 @@ describe( 'Intermediate Representation', function() {
 			} );
 		} );
 
-		it( 'named export', function() {
+		it( 'named export', function () {
 			const tokenImportNamespace = fs.readFileSync(
 				path.join(
 					__dirname,

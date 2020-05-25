@@ -35,7 +35,7 @@ export function isPostTitleSelected( state ) {
  */
 export const isEditedPostAutosaveable = createRegistrySelector(
 	() =>
-		function( state ) {
+		function ( state ) {
 			// A post must contain a title, an excerpt, or non-empty content to be valid for autosaving.
 			if ( ! isEditedPostSaveable( state ) ) {
 				return false;

@@ -14,7 +14,7 @@ const { COMMENT_NODE } = window.Node;
  * @param {Node} node The node to be processed.
  * @return {void}
  */
-export default function( node ) {
+export default function ( node ) {
 	if ( node.nodeType === COMMENT_NODE ) {
 		remove( node );
 	}

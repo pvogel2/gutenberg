@@ -18,7 +18,7 @@ const rootSize = () => {
 	const size = 24;
 
 	return css( {
-		gridTemplateRows: `repeat( 3, calc( ${ size - padding * 2 }px / 3))`,
+		gridTemplateRows: `repeat( 3, calc( ${ size - padding * 2}px / 3))`,
 		padding,
 		maxHeight: size,
 		maxWidth: size,

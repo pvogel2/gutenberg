@@ -5,7 +5,7 @@
  *
  * @return {void}
  */
-export default function( node ) {
+export default function ( node ) {
 	if ( node.nodeName !== 'IMG' ) {
 		return;
 	}

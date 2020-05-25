@@ -217,7 +217,7 @@ export default function __experimentalUseColors(
 	}, [
 		colorConfigs.reduce(
 			( acc, colorConfig ) =>
-				`${ acc } | ${ attributes[ colorConfig.name ] } | ${
+				`${ acc } | ${ attributes[ colorConfig.name ]} | ${
 					attributes[ camelCase( `custom ${ colorConfig.name }` ) ]
 				}`,
 			''

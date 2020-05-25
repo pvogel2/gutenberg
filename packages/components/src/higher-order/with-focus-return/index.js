@@ -49,7 +49,7 @@ function withFocusReturn( options ) {
 
 	const { onFocusReturn = stubTrue } = options;
 
-	return function( WrappedComponent ) {
+	return function ( WrappedComponent ) {
 		class FocusReturn extends Component {
 			constructor() {
 				super( ...arguments );

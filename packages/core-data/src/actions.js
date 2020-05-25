@@ -300,7 +300,7 @@ export function* saveEntityRecord(
 	let persistedEntity;
 	let currentEdits;
 	try {
-		const path = `${ entity.baseURL }${ recordId ? '/' + recordId : '' }`;
+		const path = `${ entity.baseURL}${ recordId ? '/' + recordId : ''}`;
 		const persistedRecord = yield select(
 			'getRawEntityRecord',
 			kind,

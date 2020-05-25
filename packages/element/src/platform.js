@@ -8,7 +8,7 @@
  */
 const Platform = {
 	OS: 'web',
-	select: ( spec ) => ( 'web' in spec ? spec.web : spec.default ),
+	select: ( spec ) => ( 'web' in spec ? spec.web : spec.default) ,
 };
 /**
  * Component used to detect the current Platform being used.

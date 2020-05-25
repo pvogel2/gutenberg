@@ -354,7 +354,7 @@ export function removep( html ) {
 
 	// Protect script and style tags.
 	if ( html.indexOf( '<script' ) !== -1 || html.indexOf( '<style' ) !== -1 ) {
-		html = html.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function(
+		html = html.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function (
 			match
 		) {
 			preserve.push( match );
@@ -365,7 +365,7 @@ export function removep( html ) {
 	// Protect pre tags.
 	if ( html.indexOf( '<pre' ) !== -1 ) {
 		preserveLinebreaks = true;
-		html = html.replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function( a ) {
+		html = html.replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function ( a ) {
 			a = a.replace( /<br ?\/?>(\r\n|\n)?/g, '<wp-line-break>' );
 			a = a.replace( /<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-line-break>' );
 			return a.replace( /\r?\n/g, '<wp-line-break>' );
@@ -375,7 +375,7 @@ export function removep( html ) {
 	// Remove line breaks but keep <br> tags inside image captions.
 	if ( html.indexOf( '[caption' ) !== -1 ) {
 		preserveBr = true;
-		html = html.replace( /\[caption[\s\S]+?\[\/caption\]/g, function( a ) {
+		html = html.replace( /\[caption[\s\S]+?\[\/caption\]/g, function ( a ) {
 			return a
 				.replace( /<br([^>]*)>/g, '<wp-temp-br$1>' )
 				.replace( /[\r\n\t]+/, '' );
@@ -406,7 +406,7 @@ export function removep( html ) {
 	html = html.replace( /\n[\s\u00a0]+\n/g, '\n\n' );
 
 	// Replace <br> tags with line breaks.
-	html = html.replace( /(\s*)<br ?\/?>\s*/gi, function( _, space ) {
+	html = html.replace( /(\s*)<br ?\/?>\s*/gi, function ( _, space ) {
 		if ( space && space.indexOf( '\n' ) !== -1 ) {
 			return '\n\n';
 		}
@@ -451,7 +451,7 @@ export function removep( html ) {
 
 	// Remove line breaks in <object> tags.
 	if ( html.indexOf( '<object' ) !== -1 ) {
-		html = html.replace( /<object[\s\S]+?<\/object>/g, function( a ) {
+		html = html.replace( /<object[\s\S]+?<\/object>/g, function ( a ) {
 			return a.replace( /[\r\n]+/g, '' );
 		} );
 	}
@@ -476,7 +476,7 @@ export function removep( html ) {
 
 	// Restore preserved tags.
 	if ( preserve.length ) {
-		html = html.replace( /<wp-preserve>/g, function() {
+		html = html.replace( /<wp-preserve>/g, function () {
 			return /** @type {string} */ ( preserve.shift() );
 		} );
 	}

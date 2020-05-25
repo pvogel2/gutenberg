@@ -213,7 +213,7 @@ class MediaTextEdit extends Component {
 			[ `is-vertically-aligned-${ verticalAlignment }` ]: verticalAlignment,
 			'is-image-fill': imageFill,
 		} );
-		const widthString = `${ temporaryMediaWidth || mediaWidth }%`;
+		const widthString = `${ temporaryMediaWidth || mediaWidth}%`;
 		const gridTemplateColumns =
 			'right' === mediaPosition
 				? `1fr ${ widthString }`

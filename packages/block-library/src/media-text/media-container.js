@@ -28,7 +28,7 @@ export function imageFillStyles( url, focalPoint ) {
 		? {
 				backgroundImage: `url(${ url })`,
 				backgroundPosition: focalPoint
-					? `${ focalPoint.x * 100 }% ${ focalPoint.y * 100 }%`
+					? `${ focalPoint.x * 100}% ${ focalPoint.y * 100}%`
 					: `50% 50%`,
 		  }
 		: {};

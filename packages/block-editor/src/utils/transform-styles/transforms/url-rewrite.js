@@ -67,7 +67,7 @@ function getResourcePath( str, baseURL ) {
  * @return {Promise}         the Promise
  */
 function processURL( baseURL ) {
-	return function( meta ) {
+	return function ( meta ) {
 		const URL = getResourcePath( meta.value, baseURL );
 		return {
 			...meta,

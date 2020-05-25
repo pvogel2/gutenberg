@@ -23,15 +23,15 @@ export function getStablePath( path ) {
 			// [ 'b=1', 'c=2', 'a=5' ]
 			.split( '&' )
 			// [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
-			.map( function( entry ) {
+			.map( function ( entry ) {
 				return entry.split( '=' );
 			} )
 			// [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
-			.sort( function( a, b ) {
+			.sort( function ( a, b ) {
 				return a[ 0 ].localeCompare( b[ 0 ] );
 			} )
 			// [ 'a=5', 'b=1', 'c=2' ]
-			.map( function( pair ) {
+			.map( function ( pair ) {
 				return pair.join( '=' );
 			} )
 			// 'a=5&b=1&c=2'

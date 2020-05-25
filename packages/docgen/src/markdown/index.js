@@ -36,7 +36,7 @@ const appendOrEmbedContents = ( { options, newContents } ) => {
 	};
 };
 
-module.exports = function(
+module.exports = function (
 	options,
 	processDir,
 	doc,
@@ -51,7 +51,7 @@ module.exports = function(
 		remark()
 			.use( { settings: { commonmark: true } } )
 			.use( appendOrEmbedContents, { options, newContents } )
-			.process( currentReadmeFile, function( err, file ) {
+			.process( currentReadmeFile, function ( err, file ) {
 				if ( err ) {
 					throw err;
 				}

@@ -15,7 +15,7 @@ import BlockTitle from '../block-title';
  *
  * @return {WPElement} Block Breadcrumb.
  */
-const BlockBreadcrumb = function() {
+const BlockBreadcrumb = function () {
 	const { selectBlock, clearSelectedBlock } = useDispatch(
 		'core/block-editor'
 	);

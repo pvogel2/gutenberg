@@ -22,7 +22,7 @@ const TEMPLATE = [
 	[ 'core/social-link', { service: 'youtube' } ],
 ];
 
-export const SocialLinksEdit = function() {
+export const SocialLinksEdit = function () {
 	return (
 		<InnerBlocks
 			allowedBlocks={ ALLOWED_BLOCKS }
