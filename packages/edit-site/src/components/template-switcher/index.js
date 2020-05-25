@@ -2,8 +2,9 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import { useState, useCallback } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
+import { select, useSelect } from '@wordpress/data';
+import { useEffect, useState, useCallback } from '@wordpress/element';
 import {
 	Tooltip,
 	DropdownMenu,
@@ -19,6 +20,11 @@ import { Icon, home, plus } from '@wordpress/icons';
 import AddTemplate from '../add-template';
 import TemplatePreview from './template-preview';
 import ThemePreview from './theme-preview';
+
+/**
+ * Browser dependencies
+ */
+const { fetch } = window;
 
 function TemplateLabel( { template, homeId } ) {
 	return (
@@ -42,9 +48,7 @@ function TemplateLabel( { template, homeId } ) {
 
 export default function TemplateSwitcher( {
 	ids,
-	templatePartIds,
 	activeId,
-	homeId,
 	isTemplatePart,
 	onActiveIdChange,
 	onActiveTemplatePartIdChange,
@@ -67,49 +71,70 @@ export default function TemplateSwitcher( {
 		setThemePreviewVisible( () => false );
 	};
 
+	const [ homeId, setHomeId ] = useState();
+	useEffect( () => {
+		const effect = async () => {
+			try {
+				const { success, data } = await fetch(
+					addQueryArgs( '/', { '_wp-find-template': true } )
+				).then( ( res ) => res.json() );
+				if ( success ) {
+					let newHomeId = data.ID;
+					if ( newHomeId === null ) {
+						const { getEntityRecords } = select( 'core' );
+						newHomeId = getEntityRecords(
+							'postType',
+							'wp_template',
+							{
+								resolved: true,
+								slug: data.post_name,
+							}
+						)[ 0 ].id;
+					}
+					setHomeId( newHomeId );
+				} else {
+					throw new Error();
+				}
+			} catch ( err ) {
+				setHomeId( null );
+			}
+		};
+		effect();
+	}, [] );
+
 	const { currentTheme, templates, templateParts } = useSelect(
-		( select ) => {
-			const { getCurrentTheme, getEntityRecord } = select( 'core' );
+		( _select ) => {
+			const { getCurrentTheme, getEntityRecords } = _select( 'core' );
+
 			return {
 				currentTheme: getCurrentTheme(),
-				templates: ids.map( ( id ) => {
-					const template = getEntityRecord(
-						'postType',
-						'wp_template',
-						id
-					);
-					return {
-						label: template ? (
-							<TemplateLabel
-								template={ template }
-								homeId={ homeId }
-							/>
-						) : (
-							__( 'Loading…' )
-						),
-						value: id,
-						slug: template ? template.slug : __( 'Loading…' ),
-					};
-				} ),
-				templateParts: templatePartIds.map( ( id ) => {
-					const template = getEntityRecord(
-						'postType',
-						'wp_template_part',
-						id
-					);
-					return {
-						label: template ? (
-							<TemplateLabel template={ template } />
-						) : (
-							__( 'Loading…' )
-						),
-						value: id,
-						slug: template ? template.slug : __( 'Loading…' ),
-					};
-				} ),
+				templates: getEntityRecords( 'postType', 'wp_template', {
+					resolved: true,
+				} )?.map( ( template ) => ( {
+					label: (
+						<TemplateLabel
+							template={ template }
+							homeId={ homeId }
+						/>
+					),
+					value: template.id,
+					slug: template.slug,
+				} ) ),
+				templateParts: getEntityRecords(
+					'postType',
+					'wp_template_part',
+					{
+						resolved: true,
+						status: [ 'publish', 'auto-draft' ],
+						theme: getCurrentTheme()?.stylesheet,
+					}
+				)?.map( ( templatePart ) => ( {
+					label: <TemplateLabel template={ templatePart } />,
+					value: templatePart.id,
+					slug: templatePart.slug,
+				} ) ),
 			};
-		},
-		[ ids, templatePartIds, homeId ]
+		}
 	);
 	const [ isAddTemplateOpen, setIsAddTemplateOpen ] = useState( false );
 	return (
@@ -125,7 +150,7 @@ export default function TemplateSwitcher( {
 					children: ( isTemplatePart
 						? templateParts
 						: templates
-					).find( ( choice ) => choice.value === activeId ).slug,
+					)?.find( ( choice ) => choice.value === activeId ).slug,
 				} }
 			>
 				{ ( { onClose } ) => (
