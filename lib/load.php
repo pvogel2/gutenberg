@@ -48,6 +48,9 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 	if ( ! class_exists( 'WP_REST_Menu_Locations_Controller' ) ) {
 		require_once dirname( __FILE__ ) . '/class-wp-rest-menu-locations-controller.php';
 	}
+	if ( ! class_exists( 'WP_Rest_Customizer_Nonces' ) ) {
+		require_once dirname( __FILE__ ) . '/class-wp-rest-customizer-nonces.php';
+	}
 	/**
 	* End: Include for phase 2
 	*/
