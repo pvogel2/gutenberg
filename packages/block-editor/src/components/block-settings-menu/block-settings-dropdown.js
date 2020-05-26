@@ -69,6 +69,7 @@ export function BlockSettingsDropdown( { clientIds, ...props } ) {
 				onInsertAfter,
 				onInsertBefore,
 				onRemove,
+				onMoveTo,
 				blocks,
 			} ) => (
 				<DropdownMenu
@@ -137,6 +138,13 @@ export function BlockSettingsDropdown( { clientIds, ...props } ) {
 											{ __( 'Insert After' ) }
 										</MenuItem>
 									</>
+								) }
+								{ ! isLocked && (
+									<MenuItem
+										onClick={ flow( onClose, onMoveTo ) }
+									>
+										{ __( 'Move To' ) }
+									</MenuItem>
 								) }
 								{ count === 1 && (
 									<BlockModeToggle
