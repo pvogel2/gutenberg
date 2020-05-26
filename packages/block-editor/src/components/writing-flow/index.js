@@ -26,6 +26,7 @@ import {
 	TAB,
 	isKeyboardEvent,
 	ESCAPE,
+	ENTER,
 	SPACE,
 } from '@wordpress/keycodes';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -381,6 +382,7 @@ export default function WritingFlow( { children } ) {
 		const isRight = keyCode === RIGHT;
 		const isTab = keyCode === TAB;
 		const isEscape = keyCode === ESCAPE;
+		const isEnter = keyCode === ENTER;
 		const isSpace = keyCode === SPACE;
 		const isReverse = isUp || isLeft;
 		const isHorizontal = isLeft || isRight;
@@ -417,7 +419,7 @@ export default function WritingFlow( { children } ) {
 			}
 			const startingBlockClientId = isBlockMovingMode();
 
-			if ( isSpace && startingBlockClientId ) {
+			if ( ( isEnter || isSpace ) && startingBlockClientId ) {
 				const sourceRoot = getBlockRootClientId(
 					startingBlockClientId
 				);
