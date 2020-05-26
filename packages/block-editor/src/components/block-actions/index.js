@@ -19,6 +19,7 @@ function BlockActions( {
 	onGroup,
 	onInsertAfter,
 	onInsertBefore,
+	onMoveTo,
 	onRemove,
 	onUngroup,
 	blocks,
@@ -31,6 +32,7 @@ function BlockActions( {
 		onGroup,
 		onInsertAfter,
 		onInsertBefore,
+		onMoveTo,
 		onRemove,
 		onUngroup,
 		blocks,
@@ -73,13 +75,14 @@ export default compose( [
 	} ),
 	withDispatch( ( dispatch, props, { select } ) => {
 		const { clientIds, blocks } = props;
-
 		const {
 			removeBlocks,
 			replaceBlocks,
 			duplicateBlocks,
 			insertAfterBlock,
 			insertBeforeBlock,
+			setBlockMovingMode,
+			setNavigationMode,
 		} = dispatch( 'core/block-editor' );
 
 		return {
@@ -94,6 +97,10 @@ export default compose( [
 			},
 			onInsertAfter() {
 				insertAfterBlock( last( castArray( clientIds ) ) );
+			},
+			onMoveTo() {
+				setNavigationMode( true );
+				setBlockMovingMode( clientIds[ 0 ] );
 			},
 			onGroup() {
 				if ( ! blocks.length ) {

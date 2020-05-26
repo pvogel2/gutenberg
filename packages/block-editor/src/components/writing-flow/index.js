@@ -26,6 +26,7 @@ import {
 	TAB,
 	isKeyboardEvent,
 	ESCAPE,
+	SPACE,
 } from '@wordpress/keycodes';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -203,6 +204,10 @@ function selector( select ) {
 		hasMultiSelection,
 		getBlockOrder,
 		isNavigationMode,
+		isBlockMovingMode,
+		getBlockIndex,
+		getBlockRootClientId,
+		getClientIdsOfDescendants,
 		isSelectionEnabled,
 		getBlockSelectionStart,
 		isMultiSelecting,
@@ -226,6 +231,10 @@ function selector( select ) {
 		hasMultiSelection: hasMultiSelection(),
 		blocks: getBlockOrder(),
 		isNavigationMode: isNavigationMode(),
+		isBlockMovingMode,
+		getBlockIndex,
+		getBlockRootClientId,
+		getClientIdsOfDescendants,
 		isSelectionEnabled: isSelectionEnabled(),
 		blockSelectionStart: getBlockSelectionStart(),
 		isMultiSelecting: isMultiSelecting(),
@@ -263,17 +272,22 @@ export default function WritingFlow( { children } ) {
 		hasMultiSelection,
 		blocks,
 		isNavigationMode,
+		isBlockMovingMode,
 		isSelectionEnabled,
 		blockSelectionStart,
 		isMultiSelecting,
+		getBlockIndex,
+		getBlockRootClientId,
+		getClientIdsOfDescendants,
 	} = useSelect( selector, [] );
 	const {
 		multiSelect,
 		selectBlock,
 		clearSelectedBlock,
 		setNavigationMode,
+		setBlockMovingMode,
+		moveBlockToPosition,
 	} = useDispatch( 'core/block-editor' );
-
 	function onMouseDown( event ) {
 		verticalRect.current = null;
 
@@ -367,6 +381,7 @@ export default function WritingFlow( { children } ) {
 		const isRight = keyCode === RIGHT;
 		const isTab = keyCode === TAB;
 		const isEscape = keyCode === ESCAPE;
+		const isSpace = keyCode === SPACE;
 		const isReverse = isUp || isLeft;
 		const isHorizontal = isLeft || isRight;
 		const isVertical = isUp || isDown;
@@ -380,11 +395,57 @@ export default function WritingFlow( { children } ) {
 		if ( isNavigationMode ) {
 			const navigateUp = ( isTab && isShift ) || isUp;
 			const navigateDown = ( isTab && ! isShift ) || isDown;
-			const focusedBlockUid = navigateUp
-				? selectionBeforeEndClientId
-				: selectionAfterEndClientId;
+			// Move out of current nesting level (no effect if at root level).
+			const navigateOut = isLeft;
+			// Move into next nesting level (no effect if the current block has no innerBlocks).
+			const navigateIn = isRight;
 
-			if ( navigateDown || navigateUp ) {
+			let focusedBlockUid;
+			if ( navigateUp ) {
+				focusedBlockUid = selectionBeforeEndClientId;
+			} else if ( navigateDown ) {
+				focusedBlockUid = selectionAfterEndClientId;
+			} else if ( navigateOut ) {
+				focusedBlockUid =
+					getBlockRootClientId( selectedBlockClientId ) ||
+					selectedBlockClientId;
+			} else if ( navigateIn ) {
+				focusedBlockUid =
+					getClientIdsOfDescendants( [
+						selectedBlockClientId,
+					] )[ 0 ] || selectedBlockClientId;
+			}
+			const startingBlockClientId = isBlockMovingMode();
+
+			if ( isSpace && startingBlockClientId ) {
+				const sourceRoot = getBlockRootClientId(
+					startingBlockClientId
+				);
+				const destRoot = getBlockRootClientId( selectedBlockClientId );
+				const sourceBlockIndex = getBlockIndex(
+					startingBlockClientId,
+					sourceRoot
+				);
+				let destinationBlockIndex = getBlockIndex(
+					selectedBlockClientId,
+					destRoot
+				);
+				if (
+					sourceBlockIndex < destinationBlockIndex &&
+					sourceRoot === destRoot
+				) {
+					destinationBlockIndex -= 1;
+				}
+				moveBlockToPosition(
+					startingBlockClientId,
+					sourceRoot,
+					destRoot,
+					destinationBlockIndex
+				);
+				selectBlock( startingBlockClientId );
+				setBlockMovingMode( '' );
+			}
+			if ( navigateDown || navigateUp || navigateOut || navigateIn ) {
 				if ( focusedBlockUid ) {
 					event.preventDefault();
 					selectBlock( focusedBlockUid );
@@ -585,6 +646,7 @@ export default function WritingFlow( { children } ) {
 
 	const className = classnames( 'block-editor-writing-flow', {
 		'is-navigate-mode': isNavigationMode,
+		'is-block-moving-mode': !! isBlockMovingMode(),
 	} );
 
 	// Disable reason: Wrapper itself is non-interactive, but must capture
