@@ -53,5 +53,11 @@ function _manually_load_plugin() {
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
+function fail_if_died() {
+	print_r( wp_debug_backtrace_summary() );
+	throw new Exception( 'WordPress died.' );
+}
+tests_add_filter( 'wp_die_handler', 'fail_if_died' );
+
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
