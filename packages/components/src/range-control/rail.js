@@ -78,7 +78,7 @@ function useMarks( { marks, min = 0, max = 100, step = 1, value = 0 } ) {
 
 		const key = `mark-${ index }`;
 		const isFilled = markValue * step + min <= value;
-		const offset = `${ ( markValue / markCount ) * 100}%`;
+		const offset = `${ ( markValue / markCount ) * 100 }%`;
 
 		const offsetStyle = {
 			[ isRTL ? 'right' : 'left' ]: offset,

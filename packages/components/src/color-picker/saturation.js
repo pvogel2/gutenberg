@@ -134,7 +134,7 @@ export class Saturation extends Component {
 	render() {
 		const { hsv, hsl, instanceId } = this.props;
 		const pointerLocation = {
-			top: `${ -hsv.v + 100}%`,
+			top: `${ -hsv.v + 100 }%`,
 			left: `${ hsv.s }%`,
 		};
 		const shortcuts = {

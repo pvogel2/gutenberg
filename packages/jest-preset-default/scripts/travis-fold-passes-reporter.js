@@ -16,7 +16,7 @@ module.exports = class TravisFoldPassesReporter extends VerboseReporter {
 
 		this.log( 'travis_fold:start:TravisFoldPassesReporter' );
 		this.log(
-			`...${ this.foldedTestResults.length} passing test${
+			`...${ this.foldedTestResults.length } passing test${
 				this.foldedTestResults.length === 1 ? '' : 's'
 			}.`
 		);

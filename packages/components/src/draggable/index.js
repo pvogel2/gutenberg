@@ -115,7 +115,7 @@ class Draggable extends Component {
 			this.cloneWrapper.style.transform = 'scale(0.5)';
 			this.cloneWrapper.style.transformOrigin = 'top left';
 			// Position clone near the cursor.
-			this.cloneWrapper.style.top = `${ event.clientY - 100}px`;
+			this.cloneWrapper.style.top = `${ event.clientY - 100 }px`;
 			this.cloneWrapper.style.left = `${ event.clientX }px`;
 		} else {
 			// Position clone right over the original element (20px padding).

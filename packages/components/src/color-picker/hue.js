@@ -122,7 +122,7 @@ export class Hue extends Component {
 	render() {
 		const { hsl = {}, instanceId } = this.props;
 
-		const pointerLocation = { left: `${ ( hsl.h * 100 ) / 360}%` };
+		const pointerLocation = { left: `${ ( hsl.h * 100 ) / 360 }%` };
 		const shortcuts = {
 			up: () => this.increase(),
 			right: () => this.increase(),

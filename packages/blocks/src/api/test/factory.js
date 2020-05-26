@@ -909,7 +909,7 @@ describe( 'block factory', () => {
 
 				const textBlocks = times( 4, ( index ) => {
 					return createBlock( 'core/text-block', {
-						value: `textBlock${ index + 1}`,
+						value: `textBlock${ index + 1 }`,
 					} );
 				} );
 
@@ -927,13 +927,13 @@ describe( 'block factory', () => {
 
 				const textBlocks = times( 2, ( index ) => {
 					return createBlock( 'core/text-block', {
-						value: `textBlock${ index + 1}`,
+						value: `textBlock${ index + 1 }`,
 					} );
 				} );
 
 				const imageBlocks = times( 2, ( index ) => {
 					return createBlock( 'core/image-block', {
-						value: `imageBlock${ index + 1}`,
+						value: `imageBlock${ index + 1 }`,
 					} );
 				} );
 
@@ -951,7 +951,7 @@ describe( 'block factory', () => {
 
 				const blocks = times( 1, ( index ) => {
 					return createBlock( 'core/text-block', {
-						value: `textBlock${ index + 1}`,
+						value: `textBlock${ index + 1 }`,
 					} );
 				} );
 
@@ -1541,7 +1541,7 @@ describe( 'block factory', () => {
 			const numOfBlocksToGroup = 4;
 			const blocks = times( numOfBlocksToGroup, ( index ) => {
 				return createBlock( 'core/text-block', {
-					value: `textBlock${ index + 1}`,
+					value: `textBlock${ index + 1 }`,
 				} );
 			} );
 
@@ -1602,7 +1602,7 @@ describe( 'block factory', () => {
 			const numOfBlocksToGroup = 4;
 			const blocks = times( numOfBlocksToGroup, ( index ) => {
 				return createBlock( 'core/text-block', {
-					value: `textBlock${ index + 1}`,
+					value: `textBlock${ index + 1 }`,
 				} );
 			} );
 

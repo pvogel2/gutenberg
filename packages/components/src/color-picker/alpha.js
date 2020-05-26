@@ -127,7 +127,7 @@ export class Alpha extends Component {
 		const gradient = {
 			background: `linear-gradient(to right, rgba(${ rgbString }, 0) 0%, rgba(${ rgbString }, 1) 100%)`,
 		};
-		const pointerLocation = { left: `${ rgb.a * 100}%` };
+		const pointerLocation = { left: `${ rgb.a * 100 }%` };
 
 		const shortcuts = {
 			up: () => this.increase(),

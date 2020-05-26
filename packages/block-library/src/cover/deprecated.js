@@ -209,7 +209,7 @@ const deprecated = [
 				style.backgroundColor = customOverlayColor;
 			}
 			if ( focalPoint && ! hasParallax ) {
-				style.backgroundPosition = `${ focalPoint.x * 100}% ${
+				style.backgroundPosition = `${ focalPoint.x * 100 }% ${
 					focalPoint.y * 100
 				}%`;
 			}
@@ -303,7 +303,7 @@ const deprecated = [
 				style.backgroundColor = customOverlayColor;
 			}
 			if ( focalPoint && ! hasParallax ) {
-				style.backgroundPosition = `${ focalPoint.x * 100}% ${
+				style.backgroundPosition = `${ focalPoint.x * 100 }% ${
 					focalPoint.y * 100
 				}%`;
 			}

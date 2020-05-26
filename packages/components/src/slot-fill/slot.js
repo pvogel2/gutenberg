@@ -64,7 +64,7 @@ class SlotComponent extends Component {
 					return child;
 				}
 
-				const childKey = `${ fillKey }---${ child.key || childIndex}`;
+				const childKey = `${ fillKey }---${ child.key || childIndex }`;
 				return cloneElement( child, { key: childKey } );
 			} );
 		} ).filter(
