@@ -82,7 +82,7 @@ export default function TemplateSwitcher( {
 					let newHomeId = data.ID;
 					if ( newHomeId === null ) {
 						const { getEntityRecords } = resolveSelect( 'core' );
-						newHomeId = getEntityRecords(
+						newHomeId = await getEntityRecords(
 							'postType',
 							'wp_template',
 							{
