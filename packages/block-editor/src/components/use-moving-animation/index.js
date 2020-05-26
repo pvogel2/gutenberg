@@ -65,7 +65,6 @@ function useMovingAnimation(
 	const [ transform, setTransform ] = useState( {
 		x: 0,
 		y: 0,
-		scrollTop: 0,
 		clientTop: 0,
 	} );
 
@@ -83,6 +82,7 @@ function useMovingAnimation(
 		}
 
 		scrollContainer.current = getScrollContainer( ref.current );
+
 		if ( prefersReducedMotion ) {
 			if ( adjustScrolling && scrollContainer.current ) {
 				// if the animation is disabled and the scroll needs to be adjusted,
@@ -98,26 +98,20 @@ function useMovingAnimation(
 
 			return;
 		}
-		ref.current.style.left = null;
-		ref.current.style.top = null;
+
+		ref.current.style.left = '';
+		ref.current.style.top = '';
 		const destination = getAbsolutePosition( ref.current );
-		if ( adjustScrolling ) {
-			scrollContainer.current.scrollTop =
-				scrollContainer.current.scrollTop -
-				previous.top +
-				destination.top;
-		}
+		const x = previous.left - destination.left;
+		const y = previous.top - destination.top;
+		ref.current.style.left = x === 0 ? undefined : `${ x }px`;
+		ref.current.style.top = y === 0 ? undefined : `${ y }px`;
 		const blockRect = ref.current.getBoundingClientRect();
 		const newTransform = {
-			x: previous.left - destination.left,
-			y: previous.top - destination.top,
-			scrollTop: scrollContainer.current.scrollTop,
+			x,
+			y,
 			clientTop: blockRect.top,
 		};
-		ref.current.style.left =
-			newTransform.x === 0 ? undefined : `${ newTransform.x }px`;
-		ref.current.style.top =
-			newTransform.y === 0 ? undefined : `${ newTransform.y }px`;
 		triggerAnimation();
 		setTransform( newTransform );
 	}, [ triggerAnimationOnChange ] );
