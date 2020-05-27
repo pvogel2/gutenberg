@@ -82,11 +82,6 @@ export default function BlockToolbar( { hideDragHandle } ) {
 	const shouldShowVisualToolbar = isValid && mode === 'visual';
 	const isMultiToolbar = blockClientIds.length > 1;
 
-	const animatedMoverStyles = {
-		opacity: shouldShowMovers ? 1 : 0,
-		transform: shouldShowMovers ? 'translateX(0px)' : 'translateX(100%)',
-	};
-
 	const classes = classnames(
 		'block-editor-block-toolbar',
 		shouldShowMovers && 'is-showing-movers',
@@ -105,22 +100,6 @@ export default function BlockToolbar( { hideDragHandle } ) {
 					</div>
 				) }
 
-				<div
-					className="block-editor-block-toolbar__mover-trigger-container"
-					{ ...showMoversGestures }
-				>
-					<div
-						className="block-editor-block-toolbar__mover-trigger-wrapper"
-						style={ animatedMoverStyles }
-					>
-						<BlockMover
-							clientIds={ blockClientIds }
-							__experimentalOrientation={ moverDirection }
-							hideDragHandle={ hideDragHandle }
-						/>
-					</div>
-				</div>
-
 				{ ( shouldShowVisualToolbar || isMultiToolbar ) && (
 					<div
 						{ ...showMoversGestures }
@@ -129,6 +108,12 @@ export default function BlockToolbar( { hideDragHandle } ) {
 						<BlockSwitcher clientIds={ blockClientIds } />
 					</div>
 				) }
+
+				<BlockMover
+					clientIds={ blockClientIds }
+					__experimentalOrientation={ moverDirection }
+					hideDragHandle={ hideDragHandle }
+				/>
 			</div>
 
 			{ shouldShowVisualToolbar && ! isMultiToolbar && (
