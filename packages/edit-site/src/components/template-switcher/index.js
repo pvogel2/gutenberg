@@ -123,7 +123,6 @@ export default function TemplateSwitcher( {
 					'wp_template_part',
 					{
 						resolved: true,
-						status: [ 'publish', 'auto-draft' ],
 						theme: getCurrentTheme()?.stylesheet,
 					}
 				)?.map( ( templatePart ) => ( {
