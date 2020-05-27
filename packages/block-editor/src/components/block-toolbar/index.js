@@ -85,7 +85,6 @@ export default function BlockToolbar( { hideDragHandle } ) {
 	const classes = classnames(
 		'block-editor-block-toolbar',
 		shouldShowMovers && 'is-showing-movers',
-		! displayHeaderToolbar && 'has-responsive-movers'
 	);
 
 	return (
