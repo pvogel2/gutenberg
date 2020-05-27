@@ -45,29 +45,23 @@ function BlockControlsFill( { controls, children } ) {
 	);
 }
 
-function BlockControls( { __experimentalAllowAnyMultiple, children } ) {
+function BlockControls( { children } ) {
 	const { isSelected, clientId, name } = useBlockEditContext();
-	const isFirstAndSameTypeMultiSelected = useSelect(
-		( select ) => {
-			const {
-				getBlockName,
-				isFirstMultiSelectedBlock,
-				getMultiSelectedBlockClientIds,
-			} = select( 'core/block-editor' );
+	const isFirstAndSameTypeMultiSelected = useSelect( ( select ) => {
+		const {
+			getBlockName,
+			isFirstMultiSelectedBlock,
+			getMultiSelectedBlockClientIds,
+		} = select( 'core/block-editor' );
 
-			if ( ! isFirstMultiSelectedBlock( clientId ) ) {
-				return false;
-			}
+		if ( ! isFirstMultiSelectedBlock( clientId ) ) {
+			return false;
+		}
 
-			return (
-				__experimentalAllowAnyMultiple ||
-				getMultiSelectedBlockClientIds().every(
-					( id ) => getBlockName( id ) === name
-				)
-			);
-		},
-		[ __experimentalAllowAnyMultiple ]
-	);
+		return getMultiSelectedBlockClientIds().every(
+			( id ) => getBlockName( id ) === name
+		);
+	}, [] );
 
 	if ( ! isSelected && ! isFirstAndSameTypeMultiSelected ) {
 		return null;

@@ -11,29 +11,23 @@ import { useBlockEditContext } from '../block-edit/context';
 
 const { Fill, Slot } = createSlotFill( 'InspectorControls' );
 
-function InspectorControls( { __experimentalAllowAnyMultiple, children } ) {
+function InspectorControls( { children } ) {
 	const { isSelected, clientId, name } = useBlockEditContext();
-	const isFirstAndSameTypeMultiSelected = useSelect(
-		( select ) => {
-			const {
-				getBlockName,
-				isFirstMultiSelectedBlock,
-				getMultiSelectedBlockClientIds,
-			} = select( 'core/block-editor' );
+	const isFirstAndSameTypeMultiSelected = useSelect( ( select ) => {
+		const {
+			getBlockName,
+			isFirstMultiSelectedBlock,
+			getMultiSelectedBlockClientIds,
+		} = select( 'core/block-editor' );
 
-			if ( ! isFirstMultiSelectedBlock( clientId ) ) {
-				return false;
-			}
+		if ( ! isFirstMultiSelectedBlock( clientId ) ) {
+			return false;
+		}
 
-			return (
-				__experimentalAllowAnyMultiple ||
-				getMultiSelectedBlockClientIds().every(
-					( id ) => getBlockName( id ) === name
-				)
-			);
-		},
-		[ __experimentalAllowAnyMultiple ]
-	);
+		return getMultiSelectedBlockClientIds().every(
+			( id ) => getBlockName( id ) === name
+		);
+	}, [] );
 
 	if ( ! isSelected && ! isFirstAndSameTypeMultiSelected ) {
 		return null;
