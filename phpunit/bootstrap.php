@@ -53,10 +53,16 @@ function _manually_load_plugin() {
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
-// If bootstrap.php triggers wp_die, it will not cause the script to fail. This
-// means that tests will look like they passed even though they should have
-// failed. So we throw an exception if WordPress dies during test setup. This
-// way the failure is observable.
+/**
+ * Adds a wp_die handler for use during tests.
+ *
+ * If bootstrap.php triggers wp_die, it will not cause the script to fail. This
+ * means that tests will look like they passed even though they should have
+ * failed. So we throw an exception if WordPress dies during test setup. This
+ * way the failure is observable.
+ *
+ * @throws Exception
+ */
 function fail_if_died() {
 	throw new Exception( 'WordPress died.' );
 }
