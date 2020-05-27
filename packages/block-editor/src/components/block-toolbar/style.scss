@@ -95,4 +95,9 @@
 	.block-editor-block-switcher {
 		display: block;
 	}
+
+	// Show this together with the mover as one group.
+	.components-toolbar-group {
+		border-right: none;
+	}
 }
