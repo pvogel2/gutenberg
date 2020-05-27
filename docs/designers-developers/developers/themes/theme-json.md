@@ -78,21 +78,21 @@ Some of the functions are context-dependant. Take, as an example, the drop cap:
     "features": {
       "typography": {
         "dropCap": false
-			}
+      }
     }
   },
   "core/paragraph": {
     "features": {
       "typography": {
         "dropCap": true
-			}
+      }
     }
   },
   "core/image": {
     "features": {
       "typography": {
         "dropCap": true
-			}
+      }
     }
   }
 }
@@ -174,9 +174,9 @@ So far, this function is only enabled for the `global` section in `experimental-
     "features": {
       "typography": {
         "dropCap": false
-			}
-		}
-	}
+      }
+    }
+  }
 }
 ```
 
@@ -188,24 +188,13 @@ Then each block can decide to override how they handle block editor features dur
     "__experimentalFeatures": {
       "typography": {
         "dropCap": true
-			}
-		}
+      }
+    }
   }
 }
 ```
 
 Moving forward, we plan to integrate overrides targeting individual blocks defined inside `experimental-theme.json` file that would be applied on top of features defined by block authors in `supports` property.
-
-Finally, this is how it can be used in the block's `edit` implementation:
-
-```js
-// edit.js
-
-const Edit = ( props ) => {
-    const isDisabled = ! useEditorFeature( 'typography.dropCap' );
-    // ...
-};
-```
 
 The list of features that are currently supported are:
 - Paragraph: drop cap.
