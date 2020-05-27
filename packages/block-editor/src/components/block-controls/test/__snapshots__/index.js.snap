@@ -15,7 +15,7 @@ exports[`BlockControls should render a dynamic toolbar of controls 1`] = `
   <WithFilters(Edit)
     isSelected={true}
   >
-    <BlockControls
+    <IfDisplayBlockControls(BlockControlsFill)
       controls={
         Array [
           Object {
@@ -60,7 +60,7 @@ exports[`BlockControls should render a dynamic toolbar of controls 1`] = `
       <p>
         Child
       </p>
-    </BlockControls>
+    </IfDisplayBlockControls(BlockControlsFill)>
   </WithFilters(Edit)>
 </ContextProvider>
 `;

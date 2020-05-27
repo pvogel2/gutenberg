@@ -2,14 +2,15 @@
  * WordPress dependencies
  */
 import { useSelect } from '@wordpress/data';
+import { createHigherOrderComponent } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import { useBlockEditContext } from '../block-edit/context';
 
-export default function ifDisplayBlockControls( Component ) {
-	return ( { children } ) => {
+export default createHigherOrderComponent(
+	( Component ) => ( { children } ) => {
 		const { isSelected, clientId, name } = useBlockEditContext();
 		const isFirstAndSameTypeMultiSelected = useSelect(
 			( select ) => {
@@ -35,5 +36,6 @@ export default function ifDisplayBlockControls( Component ) {
 		}
 
 		return <Component>{ children }</Component>;
-	};
-}
+	},
+	'ifDisplayBlockControls'
+);

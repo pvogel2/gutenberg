@@ -146,7 +146,7 @@ export const withBlockControls = createHigherOrderComponent(
 
 		return [
 			Platform.OS === 'web' && hasTypographySupport && (
-				<InspectorControls key="typography" allowAnyMultiple>
+				<InspectorControls key="typography">
 					<PanelBody title={ __( 'Typography' ) }>
 						<FontSizeEdit { ...props } />
 						<LineHeightEdit { ...props } />
