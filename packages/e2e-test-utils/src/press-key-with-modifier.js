@@ -143,7 +143,7 @@ export async function pressKeyWithModifier( modifier, key ) {
 			_isApple() ? [ SHIFT, ALT ] : [ SHIFT, CTRL ],
 	};
 	const mappedModifiers = overWrittenModifiers[ modifier ]( isAppleOS );
-	const ctrlSwap = ( mod ) => ( mod === CTRL ? 'control' : mod) ;
+	const ctrlSwap = ( mod ) => ( mod === CTRL ? 'control' : mod );
 
 	await Promise.all(
 		mappedModifiers.map( async ( mod ) => {

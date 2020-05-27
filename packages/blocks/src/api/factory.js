@@ -350,7 +350,7 @@ export function findTransform( transforms, predicate ) {
 			hooks.addFilter(
 				'transform',
 				'transform/' + i.toString(),
-				( result ) => ( result ? result : candidate) ,
+				( result ) => ( result ? result : candidate ),
 				candidate.priority
 			);
 		}
