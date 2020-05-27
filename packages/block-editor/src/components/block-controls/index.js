@@ -12,12 +12,11 @@ import {
 	createSlotFill,
 	ToolbarGroup,
 } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import { useBlockEditContext } from '../block-edit/context';
+import ifDisplayBlockControls from '../if-display-block-controls';
 
 const { Fill, Slot } = createSlotFill( 'BlockControls' );
 
@@ -45,30 +44,7 @@ function BlockControlsFill( { controls, children } ) {
 	);
 }
 
-function BlockControls( { children } ) {
-	const { isSelected, clientId, name } = useBlockEditContext();
-	const isFirstAndSameTypeMultiSelected = useSelect( ( select ) => {
-		const {
-			getBlockName,
-			isFirstMultiSelectedBlock,
-			getMultiSelectedBlockClientIds,
-		} = select( 'core/block-editor' );
-
-		if ( ! isFirstMultiSelectedBlock( clientId ) ) {
-			return false;
-		}
-
-		return getMultiSelectedBlockClientIds().every(
-			( id ) => getBlockName( id ) === name
-		);
-	}, [] );
-
-	if ( ! isSelected && ! isFirstAndSameTypeMultiSelected ) {
-		return null;
-	}
-
-	return <BlockControlsFill>{ children }</BlockControlsFill>;
-}
+const BlockControls = ifDisplayBlockControls( BlockControlsFill );
 
 BlockControls.Slot = BlockControlsSlot;
 

@@ -2,39 +2,14 @@
  * WordPress dependencies
  */
 import { createSlotFill } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import { useBlockEditContext } from '../block-edit/context';
+import ifDisplayBlockControls from '../if-display-block-controls';
 
 const { Fill, Slot } = createSlotFill( 'InspectorControls' );
-
-function InspectorControls( { children } ) {
-	const { isSelected, clientId, name } = useBlockEditContext();
-	const isFirstAndSameTypeMultiSelected = useSelect( ( select ) => {
-		const {
-			getBlockName,
-			isFirstMultiSelectedBlock,
-			getMultiSelectedBlockClientIds,
-		} = select( 'core/block-editor' );
-
-		if ( ! isFirstMultiSelectedBlock( clientId ) ) {
-			return false;
-		}
-
-		return getMultiSelectedBlockClientIds().every(
-			( id ) => getBlockName( id ) === name
-		);
-	}, [] );
-
-	if ( ! isSelected && ! isFirstAndSameTypeMultiSelected ) {
-		return null;
-	}
-
-	return <Fill>{ children }</Fill>;
-}
+const InspectorControls = ifDisplayBlockControls( Fill );
 
 InspectorControls.Slot = Slot;
 
