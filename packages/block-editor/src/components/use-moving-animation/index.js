@@ -87,8 +87,7 @@ function useMovingAnimation(
 			if ( adjustScrolling && scrollContainer.current ) {
 				// if the animation is disabled and the scroll needs to be adjusted,
 				// just move directly to the final scroll position
-				ref.current.style.left = null;
-				ref.current.style.top = null;
+				ref.current.style.transform = '';
 				const destination = getAbsolutePosition( ref.current );
 				scrollContainer.current.scrollTop =
 					scrollContainer.current.scrollTop -
@@ -99,13 +98,12 @@ function useMovingAnimation(
 			return;
 		}
 
-		ref.current.style.left = '';
-		ref.current.style.top = '';
+		ref.current.style.transform = '';
 		const destination = getAbsolutePosition( ref.current );
-		const x = previous.left - destination.left;
-		const y = previous.top - destination.top;
-		ref.current.style.left = x === 0 ? undefined : `${ x }px`;
-		ref.current.style.top = y === 0 ? undefined : `${ y }px`;
+		const x = Math.round( previous.left - destination.left );
+		const y = Math.round( previous.top - destination.top );
+		ref.current.style.transform =
+			x === 0 && y === 0 ? undefined : `translate3d(${ x }px,${ y }px,0)`;
 		const blockRect = ref.current.getBoundingClientRect();
 		const newTransform = {
 			x,
@@ -145,24 +143,20 @@ function useMovingAnimation(
 	return prefersReducedMotion
 		? {}
 		: {
-				left: interpolate( [ animationProps.x ], ( x ) => {
-					x = Math.round( x );
+				transformOrigin: 'center',
+				transform: interpolate(
+					[ animationProps.x, animationProps.y ],
+					( x, y ) => {
+						x = Math.round( x );
+						y = Math.round( y );
 
-					if ( x === 0 ) {
-						return;
+						if ( x === 0 && y === 0 ) {
+							return;
+						}
+
+						return `translate3d(${ x }px,${ y }px,0)`;
 					}
-
-					return `${ x }px`;
-				} ),
-				top: interpolate( [ animationProps.y ], ( y ) => {
-					y = Math.round( y );
-
-					if ( y === 0 ) {
-						return;
-					}
-
-					return `${ y }px`;
-				} ),
+				),
 				zIndex: interpolate(
 					[ animationProps.x, animationProps.y ],
 					( x, y ) =>
