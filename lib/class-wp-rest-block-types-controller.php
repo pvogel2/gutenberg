@@ -243,7 +243,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			'description'   => 'description',
 			'keywords'      => 'keywords',
 			'parent'        => 'parent',
-			'styles'        => 'styleVariations',
+			'styles'        => 'styles',
 			'text_domain'   => 'textDomain',
 		);
 		foreach ( $extra_fields as $key => $extra_field ) {

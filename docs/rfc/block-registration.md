@@ -81,7 +81,7 @@ To register a new block type, start by creating a `block.json` file. This file:
 		"align": true,
 		"lightBlockWrapper": true
 	},
-	"styleVariations": [
+	"styles": [
 		{ "name": "default", "label": "Default", "isDefault": true },
 		{ "name": "other", "label": "Other" }
 	],
@@ -264,11 +264,10 @@ See the [the attributes documentation](/docs/designers-developers/developers/blo
 * Optional
 * Localized: Yes (`label` only)
 * Property: `styles`
-* Alias: `styleVariations`
 
 ```json
 {
-	"styleVariations": [
+	"styles": [
 		{ "name": "default", "label": "Default", "isDefault": true },
 		{ "name": "other", "label": "Other" }
 	]
