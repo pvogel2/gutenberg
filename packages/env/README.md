@@ -257,16 +257,17 @@ wp> ^C
 
 ```sh
 wp-env destroy
+```
 
 Destroy the WordPress environment. Delete docker containers and remove local files.
-```
 
 ### `wp-env logs [environment]`
 
-````sh
+```sh
 wp-env logs
 
-displays PHP and Docker logs for given WordPress environment.
+
+Displays PHP and Docker logs for given WordPress environment.
 
 Positionals:
   environment  Which environment to display the logs from.
