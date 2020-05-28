@@ -62,6 +62,7 @@ module.exports = {
 	 */
 	async readConfig( configPath ) {
 		const configDirectoryPath = path.dirname( configPath );
+		const overrideConfigFile = process.env.WP_ENV_OVERRIDE_CONFIG ? process.env.WP_ENV_OVERRIDE_CONFIG : '.wp-env.override.json';
 
 		let config = null;
 		let overrideConfig = {};
@@ -87,7 +88,7 @@ module.exports = {
 				await fs.readFile(
 					configPath.replace(
 						/\.wp-env\.json$/,
-						'.wp-env.override.json'
+						overrideConfigFile
 					),
 					'utf8'
 				)
@@ -97,11 +98,11 @@ module.exports = {
 				// Config override file does not exist. Do nothing - it's optional.
 			} else if ( error instanceof SyntaxError ) {
 				throw new ValidationError(
-					`Invalid .wp-env.override.json: ${ error.message }`
+					`Invalid ${ overrideConfigFile }: ${ error.message }`
 				);
 			} else {
 				throw new ValidationError(
-					`Could not read .wp-env.override.json: ${ error.message }`
+					`Could not read ${ overrideConfigFile }: ${ error.message }`
 				);
 			}
 		}
