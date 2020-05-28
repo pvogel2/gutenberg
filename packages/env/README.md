@@ -310,7 +310,7 @@ Remote sources will be downloaded into a temporary directory located in `~/.wp-e
 
 ## .wp-env.override.json
 
-Any fields here will take precedence over .wp-env.json. This file is useful, when ignored from version control, to persist local development overrides.
+Any fields here will take precedence over .wp-env.json. This file is useful, when ignored from version control, to persist local development overrides. To change the filename the override configuration is read from, set the ```WP_ENV_OVERRIDE_CONFIG``` environment variable when calling ```wp-env```.
 
 ### Examples
 
@@ -397,6 +397,12 @@ You can tell `wp-env` to use a custom port number so that your instance does not
 	"port": 4013,
 	"testsPort": 4012
 }
+```
+
+#### Customize override config file
+
+```bash
+WP_ENV_OVERRIDE_CONFIG=".wp-env.ci-tests.json" wp-env start
 ```
 
 <br/><br/><p align="center"><img src="https://s.w.org/style/images/codeispoetry.png?1" alt="Code is Poetry." /></p>
