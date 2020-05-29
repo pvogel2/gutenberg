@@ -32,7 +32,9 @@ module.exports = function buildDockerComposeConfig( config ) {
 			`${ source.path }:/var/www/html/wp-content/themes/${ source.basename }`
 	);
 
-	const localMounts = [ ...directoryMounts, ...pluginMounts, ...themeMounts ];
+	const localMounts = [ ...directoryMounts, ...pluginMounts, ...themeMounts ].filter( ( itm, idx, arr ) => {
+		return arr.indexOf(itm) === idx;
+    } );
 
 	const developmentMounts = [
 		`${

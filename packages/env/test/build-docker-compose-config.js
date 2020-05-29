@@ -70,4 +70,27 @@ describe( 'buildDockerComposeConfig', () => {
 			expect.arrayContaining( localSources )
 		);
 	} );
+
+	it( 'should reduce double mapped directories', () => {
+		const envConfig = {
+			...CONFIG,
+			mappings: {
+				'wp-content/plugins/test-name': {
+					path: '/path/to/local/plugins/test-name',
+				},
+			},
+			pluginSources: [
+				{ path: '/path/to/local/plugins/test-name', basename: 'test-name' },
+				{ path: '/path/to/local/plugins/required-name', basename: 'required-name' },
+			],
+		};
+		const dockerConfig = buildDockerComposeConfig( envConfig );
+
+		const { volumes } = dockerConfig.services.wordpress;
+		expect( volumes ).toEqual( [
+			'wordpress:/var/www/html', // WordPress root
+			'/path/to/local/plugins/test-name:/var/www/html/wp-content/plugins/test-name', // Mapped plugins root
+			'/path/to/local/plugins/required-name:/var/www/html/wp-content/plugins/required-name', // Mapped plugin
+		] );
+	} );
 } );
